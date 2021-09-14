@@ -28,12 +28,31 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   moor_flutter:
+  google_fonts: ^2.1.0  
+  shared_preferences: ^2.0.6  
+  font_awesome_flutter: ^9.0.0
+  progress_dialog: ^1.2.2
+  mobx: ^2.0.1
+  flutter_mobx: ^2.0.0
+  mobx_codegen: ^2.0.1+3
+  intl: ^0.17.0
+  http: ^0.13.1
+  expansion_tile_card: ^1.0.3
+  flushbar: ^1.10.0
+  flutter_phone_direct_caller: ^1.0.1
+  back_button_interceptor: ^4.4.2
+  money2: ^2.1.4
+  jiffy: ^4.1.0  
+  flutter_touch_spin: ^2.0.0-nullsafety.1
+  maps_launcher: ^1.2.2   
+  #location: ^3.0.2
+  #location_web: ^1.0.0 
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   moor_generator:   
-  build_runner: 
+  build_runner:   
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
