@@ -8,14 +8,14 @@ import 'package:maps_launcher/maps_launcher.dart';
 import 'package:vendas_app/src/shared/format.dart';
 import 'package:vendas_app/src/context/mycontext.dart';
 import 'package:vendas_app/src/view/cliente_data_view.dart';
-import 'package:vendas_app/src/view/cliente_search_view.dart';
+//import 'package:vendas_app/src/view/cliente_search_view.dart';
 
 //import '../../../app/datamodule/dmlocal.dart';
 
 import 'package:vendas_app/src/view/components/icon_header_view.dart';
 
 
-//import '../../app_controller.dart';
+import 'package:vendas_app/src/app_controller.dart';
 
 class ClienteSearch extends StatefulWidget {
   @override
@@ -24,6 +24,8 @@ class ClienteSearch extends StatefulWidget {
 
 class _ClienteSearchState extends State<ClienteSearch> {
   TextEditingController _nomeCli = TextEditingController();
+
+  var controller = new AppController();
 
   @override
   Widget build(BuildContext context) {
@@ -439,7 +441,7 @@ class _ClienteSearchState extends State<ClienteSearch> {
                                                 cli[index].lng;
                                             Context.instance.uf =
                                                 cli[index].uf;
-                                            Navigator.of(context)aaaa
+                                            Navigator.of(context)
                                                 .pushNamed('clienteFicha');
                                           }),
                                     ],

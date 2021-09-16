@@ -10,6 +10,7 @@ import 'package:vendas_app/src/shared/format.dart';
 import 'package:vendas_app/src/view/components/show_message_view.dart';
 import 'package:vendas_app/src/view/components/icon_header_view.dart';
 import 'package:http/http.dart' as http;
+import 'package:vendas_app/src/app_controller.dart';
 
 
 class ClienteData extends StatefulWidget {
@@ -39,6 +40,8 @@ class _ClienteDataState extends State<ClienteData> {
   final FocusNode _telefoneF = FocusNode();
   final FocusNode _municipioF = FocusNode();
   final FocusNode _ufF = FocusNode();
+
+  var controller = new AppController();
 
   Future<void> consultaCnpj() async {
     var url = 'http://www.receitaws.com.br/v1/cnpj/' + _cpfcnpj.text;
