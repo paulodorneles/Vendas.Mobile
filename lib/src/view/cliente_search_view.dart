@@ -8,12 +8,10 @@ import 'package:maps_launcher/maps_launcher.dart';
 import 'package:vendas_app/src/shared/format.dart';
 import 'package:vendas_app/src/context/mycontext.dart';
 import 'package:vendas_app/src/view/cliente_data_view.dart';
-//import 'package:vendas_app/src/view/cliente_search_view.dart';
 
 //import '../../../app/datamodule/dmlocal.dart';
 
 import 'package:vendas_app/src/view/components/icon_header_view.dart';
-
 
 import 'package:vendas_app/src/app_controller.dart';
 
@@ -415,8 +413,7 @@ class _ClienteSearchState extends State<ClienteSearch> {
                                             ],
                                           ),
                                           onPressed: () {
-                                            Context.instance.id =
-                                                cli[index].id;
+                                            Context.instance.id = cli[index].id;
                                             Context.instance.cnpj =
                                                 cli[index].cnpj;
                                             Context.instance.nome =
@@ -439,8 +436,14 @@ class _ClienteSearchState extends State<ClienteSearch> {
                                                 cli[index].lat;
                                             Context.instance.lng =
                                                 cli[index].lng;
-                                            Context.instance.uf =
-                                                cli[index].uf;
+                                            Context.instance.uf = cli[index].uf;
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        ClienteData(
+                                                            //   clienteEnt: cli[index],
+                                                            )));
                                             Navigator.of(context)
                                                 .pushNamed('clienteFicha');
                                           }),

@@ -1,7 +1,7 @@
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:vendas_app/src/view/components/menu_item_view.dart';
+import 'package:vendas_app/src/view/cliente_search_view.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 
 class MenuView extends StatefulWidget {
@@ -10,7 +10,7 @@ class MenuView extends StatefulWidget {
 }
 
 class _MenuView extends State<MenuView> {
-  @override
+  // @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xff317183),
@@ -27,7 +27,7 @@ class _MenuView extends State<MenuView> {
                   color: Colors.white,
                 ),
                 //nome do vendedor
-                Container(
+                Container( 
                   width: 250,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
@@ -106,7 +106,10 @@ class _MenuView extends State<MenuView> {
                                   ' clientes registrados',
                               cor: Color(0xff317183),
                               onPress: () {
-                               // Modular.to.pushNamed('clientelista');
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        ClienteSearch()));
+                                // Modular.to.pushNamed('clientelista');
                               },
                             );
                           }),
@@ -116,10 +119,10 @@ class _MenuView extends State<MenuView> {
                             return MenuItem(
                               img: 'images/produto.png',
                               header: 'Produtos',
-                              botton:// controller.totProd.toString() +
+                              botton: // controller.totProd.toString() +
                                   ' produtos registrados',
                               onPress: () {
-                           //     Modular.to.pushNamed('produtoLista');
+                                //     Modular.to.pushNamed('produtoLista');
                               },
                             );
                           }),
@@ -132,7 +135,7 @@ class _MenuView extends State<MenuView> {
                               botton: //controller.totPed.toString() +
                                   '1 pedidos registrados',
                               onPress: () {
-                              //  Modular.to.pushNamed('pedidoLista');
+                                //  Modular.to.pushNamed('pedidoLista');
                               },
                             );
                           }),
@@ -143,7 +146,7 @@ class _MenuView extends State<MenuView> {
                             header: 'Novo pedido',
                             botton: 'Registrar um novo pedido',
                             onPress: () {
-                            //  Modular.to.pushNamed('clienteSel');
+                              //  Modular.to.pushNamed('clienteSel');
                             },
                           ),
                         ),
@@ -153,8 +156,8 @@ class _MenuView extends State<MenuView> {
                             header: 'Sincronizar',
                             botton: 'Enviar e atualizar a base',
                             onPress: () {
-                             // print(controller.totCat);
-                             // Modular.to.pushNamed('sincro');
+                              // print(controller.totCat);
+                              // Modular.to.pushNamed('sincro');
                             },
                           ),
                         ),
@@ -164,7 +167,7 @@ class _MenuView extends State<MenuView> {
                             header: 'Configurar',
                             botton: 'Configurações gerais',
                             onPress: () {
-                             // Modular.to.pushNamed('config');
+                              // Modular.to.pushNamed('config');
                             },
                             cor: Color(0xFF21BFBD),
                           ),
