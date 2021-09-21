@@ -1,10 +1,10 @@
 import 'package:http/io_client.dart';
-import 'package:pedidos/src/shared/constantes.dart';
+import 'package:vendas_app/src/shared/constantes.dart';
 import 'dart:io';
 
 class ClienteApi {
-  static getClientes(String pCodVendedor) async {
-    String url = Constantes.url + "/Cliente/Listar?idVendedor=" + pCodVendedor;
+  static getClientes() async {
+    String url = Constantes.url + "/Cliente/Listar";
     final ioc = new HttpClient();
     ioc.badCertificateCallback =
         (X509Certificate cert, String host, int port) => true;

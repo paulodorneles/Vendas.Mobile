@@ -1,6 +1,6 @@
 //import 'package:http/http.dart' as http;
 import 'package:http/io_client.dart';
-import 'package:pedidos/src/shared/constantes.dart';
+import 'package:vendas_app/src/shared/constantes.dart';
 import 'dart:io';
 
 class ProdutoApi {

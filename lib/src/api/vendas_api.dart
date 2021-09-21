@@ -1,5 +1,5 @@
-import 'package:pedidos/src/model/pedido_entity.dart';
-import 'package:pedidos/src/shared/constantes.dart';
+import 'package:vendas_app/src/model/pedido_model.dart';
+import 'package:vendas_app/src/shared/constantes.dart';
 import 'dart:convert';
 //import 'package:http/http.dart' as http;
 import 'package:http/io_client.dart';
@@ -7,7 +7,7 @@ import 'dart:async';
 import 'dart:io';
 
 class VendasApi {
-  static Future postVendas(PedidoEntity pedido) async {
+  static Future postVendas(PedidoModel pedido) async {
     var url = Constantes.url + "/Vendas";
     var body = json.encode(pedido.toJson());
 

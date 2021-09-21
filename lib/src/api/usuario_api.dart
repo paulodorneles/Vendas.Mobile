@@ -1,5 +1,5 @@
 import 'package:http/io_client.dart';
-import 'package:pedidos/src/shared/constantes.dart';
+import 'package:vendas_app/src/shared/constantes.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
