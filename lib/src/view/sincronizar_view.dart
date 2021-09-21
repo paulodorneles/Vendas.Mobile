@@ -4,11 +4,11 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 //import '../../../app/datamodule/dm_remoto.dart';
 import 'package:vendas_app/src/context/mycontext.dart';
+import 'package:vendas_app/src/context/dm_remoto.dart';
 import 'package:vendas_app/src/app_controller.dart';
 import 'package:vendas_app/src/view/components/icon_header_view.dart';
 import 'package:vendas_app/src/view/components/botao_customizado.dart';
 import 'package:vendas_app/src/view/components/item_listtile.dart';
-
 
 ProgressDialog pr;
 
@@ -23,7 +23,6 @@ class _SincroPageState extends State<SincroPage> {
   bool pedido = false;
   bool produto = false;
   var controller = new AppController();
-
 
   @override
   void dispose() {
@@ -127,7 +126,7 @@ class _SincroPageState extends State<SincroPage> {
                 if (categ) {
                   pr.update(message: 'Atualizando Categorias...');
                   await buscaCategorias(controller.categoriaRemoto);
-                  int ca = await Basedados.instance.countCa();
+                  int ca = await Context.instance.countCa();
                   controller.updTotCat(ca);
                   print(controller.totCat);
                 }
@@ -150,7 +149,8 @@ class _SincroPageState extends State<SincroPage> {
                 pr.hide();
               }
               //volta ao menu
-              Modular.to.pop();
+              Navigator.of(context).pop();
+              //Modular.to.pop();
             },
           ),
         ],

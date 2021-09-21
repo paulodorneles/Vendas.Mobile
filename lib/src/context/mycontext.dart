@@ -65,7 +65,6 @@ class Itens extends Table {
   TextColumn get totalfmt => text()();
   TextColumn get nome => text().withLength(max: 50)();
   IntColumn get enviado => integer().withDefault(const Constant(0))();
- 
 }
 
 @UseMoor(
@@ -87,7 +86,6 @@ class Itens extends Table {
         'SELECT COUNT(*) FROM pedidos AS "TOTAL" WHERE enviado = 0;',
   },
 )
-
 class Context extends _$Context {
   static final Context instance = Context._internal();
 
@@ -264,6 +262,7 @@ class Context extends _$Context {
   Future<List<Iten>> getItensLocal() {
     return (select(itens)..where((iten) => iten.enviado.equals(0))).get();
   }
+
   //selects para envio
 
   Future<List<Iten>> enviarItens() {
