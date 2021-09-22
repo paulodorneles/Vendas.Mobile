@@ -183,8 +183,8 @@ abstract class _SincronizarController with Store {
 
     List<PedidoModel> vendaEnt = new List<PedidoModel>();
 
-    for (List item in _ped) {
-      vendaEnt.add(PedidoModel.toJson(item));
+    for (Map item in _ped) {
+      vendaEnt.add(PedidoModel.fromJson(item));
     }
 
     if (_ped.length > 0) {
