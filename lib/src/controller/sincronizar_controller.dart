@@ -34,10 +34,10 @@ import 'package:vendas_app/src/api/produto_api.dart';
 import 'package:vendas_app/src/api/vendas_api.dart';
 import 'package:vendas_app/src/context/mycontext.dart';
 
-
 import 'dart:convert';
 import 'package:mobx/mobx.dart';
 import 'package:vendas_app/src/model/cliente_model.dart';
+import 'package:vendas_app/src/model/pedido_model.dart';
 
 part 'sincronizar_controller.g.dart';
 
@@ -69,7 +69,7 @@ abstract class _SincronizarController with Store {
   @action
   void setStatusVendas(String value) => statusVenda = value;
 
- /* var clienteRep = new ClienteRepository();
+  /* var clienteRep = new ClienteRepository();
   var tipoRep = new TipoEnvioMercadoriaRepository();
   var grupoRep = new GrupoRepository();
   var produtoRep = new ProdutoRepository();
@@ -77,7 +77,7 @@ abstract class _SincronizarController with Store {
   var condRep = new CondPagtoRepository();
   var controllerUsu = new UsuarioController();  */
 
- // var util = new Util();
+  // var util = new Util();
 
   Future<void> sincronizarDados(
       bool cliente, bool produto, bool tabelas) async {
@@ -95,24 +95,21 @@ abstract class _SincronizarController with Store {
   @action
   void buscarTabelas() {
     buscarCondPagamento();
-  
-  
+
     buscarParametros();
     buscarTipoEnvioMercadoria();
   }
 
-  
-
   @action
-  void buscarCliente() {    
-    setStatusCliente('Buscando clientes');    
+  void buscarCliente() {
+    setStatusCliente('Buscando clientes');
     ClienteApi.getClientes().then((response) {
       final lista = json.decode(response.body);
 
       if (response.statusCode == 200) {
         //var cliente = new List<Clientes>(lista.length);
         var itemCliente;
-        Context.instance.delCliente();        
+        Context.instance.delCliente();
         var count = 0;
         while (count <= lista.length) {
           itemCliente = lista[count];
@@ -132,14 +129,13 @@ abstract class _SincronizarController with Store {
             uf: itemCliente['cli_Id'],
             alterado: 1,
           ));
-          
+
           count++;
           setStatusCliente('Atualizado ' +
               count.toString() +
               ' de ' +
               lista.length.toString());
         }
-        
       } else {
         setStatusCliente('Erro ao buscar dados!');
       }
@@ -150,10 +146,10 @@ abstract class _SincronizarController with Store {
   void buscarProduto() {
     setStatusProduto('Buscando produtos');
     ProdutoApi.getProdutos().then((response) {
-      final lista = json.decode(response.body);      
-      var itemProduto;     
+      final lista = json.decode(response.body);
+      var itemProduto;
 
-      if (response.statusCode == 200) {       
+      if (response.statusCode == 200) {
         Context.instance.delProduto();
         var count = 0;
         while (count <= lista.length) {
@@ -166,21 +162,55 @@ abstract class _SincronizarController with Store {
             quant: itemProduto['cli_Id'],
             total: itemProduto['cli_Id'],
             unidade: itemProduto['cli_Id'],
-            valorfmt: itemProduto['cli_Id'],              
+            valorfmt: itemProduto['cli_Id'],
           ));
-          
+
           count++;
           setStatusProduto('Atualizado ' +
               count.toString() +
               ' de ' +
               lista.length.toString());
-        }    
+        }
       } else {
         setStatusProduto('Erro ao buscar dados!');
       }
     });
-  }  
- 
+  }
+
+  Future<void> enviaPedido(String url) async {
+    List _ped = await Context.instance.enviarPedido();
+    List _itens = await Context.instance.enviarItens();
+
+    List<PedidoModel> vendaEnt = new List<PedidoModel>();
+
+    for (List item in _ped) {
+      vendaEnt.add(PedidoModel.toJson(item));
+    }
+
+    if (_ped.length > 0) {
+      String _jHeader = json.encode(_ped);
+      var hEncodado = utf8.encode(_jHeader);
+      var h = base64.encode(hEncodado);
+
+      String _jItens = json.encode(_itens);
+      var iEncodado = utf8.encode(_jItens);
+      var i = base64.encode(iEncodado);
+
+      final response = await http.post(
+        url,
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        body: {"pHeader": h, "pItens": i},
+      );
+
+      if (response.statusCode == 200) {
+        if (response.body == '{"MESSAGE":"OK",  "RESULT":"OK"}') {
+          Context.instance.delAllPedidos();
+          Context.instance.delAllItem();
+        }
+      }
+    }
+  }
+
   Future eviarVendas() async {
     var pedRep = new PedidoRepository();
     int count = 0;
@@ -204,22 +234,22 @@ abstract class _SincronizarController with Store {
           });
         }
         buscarItens(int.parse(item.venId)).then((list) {
-          item.pedidoItensEntity = list;          
-            item.pedidoItensBrindesEntity = list;
-            VendasApi.postVendas(item).then((response) {
-              print("Response status: ${response.statusCode}"); //200
-              print(response.body.toString()); //Concluido
-              if (response.statusCode == 200) {
-                count++;
-                pedRep.alterarStatusPedido(item.venId);
-                setStatusVendas("Atualizado dados " +
-                    count.toString() +
-                    " de " +
-                    vendaEnt.length.toString());
-              } else {
-                setStatusVendas('Erro ao enviar os dados!');
-              }
-            });        
+          item.pedidoItensEntity = list;
+          item.pedidoItensBrindesEntity = list;
+          VendasApi.postVendas(item).then((response) {
+            print("Response status: ${response.statusCode}"); //200
+            print(response.body.toString()); //Concluido
+            if (response.statusCode == 200) {
+              count++;
+              pedRep.alterarStatusPedido(item.venId);
+              setStatusVendas("Atualizado dados " +
+                  count.toString() +
+                  " de " +
+                  vendaEnt.length.toString());
+            } else {
+              setStatusVendas('Erro ao enviar os dados!');
+            }
+          });
         });
       }
     });
