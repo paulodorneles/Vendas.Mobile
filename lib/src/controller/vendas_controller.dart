@@ -53,7 +53,7 @@ abstract class _VendasController with Store {
       ),
     );
 
-    var total = Context.instance.subtotalVenda();
+    var total = Context.instance.contaTotalVendaQuery();
 
     totalPedido = total ?? 0;
 

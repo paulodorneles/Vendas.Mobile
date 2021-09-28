@@ -151,11 +151,26 @@ class Context extends _$Context {
         readsFrom: {}).map((QueryRow row) => row.read('sum(t.amount)'));
   } */
 
+/*  contaTotalVendaQuery() {
+    var teste = customSelect('select SUM(quant * preco) as total from produtos where quant > 0;',
+        variables: [],
+        readsFrom: {produtos}).map((QueryRow row) => row.read('total'));
+    return teste;
+  }  */
+
+  Selectable<int> contaTotalVendaQuery() {
+    return customSelect('SELECT COUNT(*) FROM produtos AS "TOTAL";',
+        variables: [],
+        readsFrom: {produtos}).map((QueryRow row) => row.read<int>('COUNT(*)'));
+  }
+
   subtotalVenda() {
     return customSelect(
-            'select SUM(quant) as total from produtos where quant > 0')
+            'select SUM(quant * preco) as total from produtos where quant > 0')
         .getSingle()
         .then((row) => row.data["total"]);
+
+
 
     //  return customSelect(
     //          'select SUM(preco * quant) as total from produtos where quant > 0')
