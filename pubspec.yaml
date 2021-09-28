@@ -44,7 +44,8 @@ dependencies:
   money2: ^2.1.4
   jiffy: ^4.1.0  
   flutter_touch_spin: ^2.0.0-nullsafety.1
-  maps_launcher: ^1.2.2    
+  maps_launcher: ^1.2.2 
+  flutter_slidable: ^0.5.7   
   #location: ^3.0.2
   #location_web: ^1.0.0 
 

@@ -38,6 +38,7 @@ import 'dart:convert';
 import 'package:mobx/mobx.dart';
 import 'package:vendas_app/src/model/cliente_model.dart';
 import 'package:vendas_app/src/model/pedido_model.dart';
+import 'package:vendas_app/src/model/pedidoitem_model.dart';
 
 part 'sincronizar_controller.g.dart';
 
@@ -80,24 +81,16 @@ abstract class _SincronizarController with Store {
   // var util = new Util();
 
   Future<void> sincronizarDados(
-      bool cliente, bool produto, bool tabelas) async {
+      bool cliente, bool produto, bool vendas) async {
     if (cliente) {
       buscarCliente();
     }
     if (produto) {
       buscarProduto();
+    }   
+    if (vendas) {
+      buscarProduto();
     }
-    if (tabelas) {
-      buscarTabelas();
-    }
-  }
-
-  @action
-  void buscarTabelas() {
-    buscarCondPagamento();
-
-    buscarParametros();
-    buscarTipoEnvioMercadoria();
   }
 
   @action
@@ -177,17 +170,75 @@ abstract class _SincronizarController with Store {
     });
   }
 
-  Future<void> enviaPedido(String url) async {
+  Future<void> enviaPedidos() async {
+    int count=0;
     List _ped = await Context.instance.enviarPedido();
-    List _itens = await Context.instance.enviarItens();
+    //List _itens = await Context.instance.enviarItens();
 
     List<PedidoModel> vendaEnt = new List<PedidoModel>();
 
-    for (Map item in _ped) {
-      vendaEnt.add(PedidoModel.fromJson(item));
+    for (Map map in _ped) {
+      vendaEnt.add(PedidoModel.fromJson(map));
     }
 
-    if (_ped.length > 0) {
+    List _itens;
+    for (PedidoModel item in vendaEnt) {
+      _itens = await Context.instance.itensPedido(item.pedId);
+      for (Map map in _itens) {
+        item.pedidoItemModel.add(PedidoItemModel.fromJson(map)); //vendaEnt.add(PedidoModel.fromJson(item));
+      }      
+    }
+
+    for (PedidoModel item in vendaEnt) {
+      VendasApi.postVendas(item).then((response) {
+        print("Response status: ${response.statusCode}"); //200
+        print(response.body.toString()); //Concluido
+        if (response.statusCode == 200) {
+          count++;
+          Context.instance.alterarStatusPedido(item.pedId);
+          setStatusVendas("Atualizado dados " +
+              count.toString() +
+              " de " +
+              vendaEnt.length.toString());
+        } else {
+          setStatusVendas('Erro ao enviar os dados!');
+        }
+      }); 
+      //data = DateTime.now().toString();
+      //data = data.substring(0, 10);
+      //item.venDataEnvio = data;
+      //item.venDataEmissao = util.dataMySql(item.venDataEmissao);
+      /*if (item.venNovoCliente == "S") {
+        clienteRep.getCliente(int.parse(item.venCodCliente)).then((list) {
+          item.clienteEntity = list;
+          item.clienteEntity.cliCPFCNPJ =
+              util.retirarMascara(item.clienteEntity.cliCPFCNPJ);
+          item.clienteEntity.cliCep =
+              util.retirarMascara(item.clienteEntity.cliCep);
+        });
+      }  */
+      /*buscarItens(int.parse(item.venId)).then((list) {
+        item.pedidoItensEntity = list;
+        item.pedidoItensBrindesEntity = list;
+        VendasApi.postVendas(item).then((response) {
+          print("Response status: ${response.statusCode}"); //200
+          print(response.body.toString()); //Concluido
+          if (response.statusCode == 200) {
+            count++;
+            pedRep.alterarStatusPedido(item.venId);
+            setStatusVendas("Atualizado dados " +
+                count.toString() +
+                " de " +
+                vendaEnt.length.toString());
+          } else {
+            setStatusVendas('Erro ao enviar os dados!');
+          }
+        });
+      }); */
+    }
+    
+
+   /* if (_ped.length > 0) {
       String _jHeader = json.encode(_ped);
       var hEncodado = utf8.encode(_jHeader);
       var h = base64.encode(hEncodado);
@@ -208,10 +259,10 @@ abstract class _SincronizarController with Store {
           Context.instance.delAllItem();
         }
       }
-    }
+    } */
   }
 
-  Future eviarVendas() async {
+/*  Future eviarVendas() async {
     var pedRep = new PedidoRepository();
     int count = 0;
     var data;
@@ -253,14 +304,14 @@ abstract class _SincronizarController with Store {
         });
       }
     });
-  }
+  }  */
 
-  Future<List<PedidoItensEntity>> buscarItens(int codPedido) async {
+/*  Future<List<PedidoItensEntity>> buscarItens(int codPedido) async {
     var peditemRep = new PedidoItensRepository();
     List<PedidoItensEntity> itemEnt = new List<PedidoItensEntity>();
     await peditemRep.getAllPedidoItens(codPedido).then((list) {
       itemEnt = list;
     });
     return itemEnt;
-  }
+  }  */
 }

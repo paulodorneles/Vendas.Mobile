@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:vendas_app/src/view/components/menu_item_view.dart';
 import 'package:vendas_app/src/view/cliente_search_view.dart';
+import 'package:vendas_app/src/view/produto_search_view.dart';
+import 'package:vendas_app/src/view/sincronizar_view.dart';
+import 'package:vendas_app/src/view/vendas_search_view.dart';
+import 'package:vendas_app/src/view/vendas_sel_cliente_view.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 
 class MenuView extends StatefulWidget {
@@ -122,7 +126,9 @@ class _MenuView extends State<MenuView> {
                               botton: // controller.totProd.toString() +
                                   ' produtos registrados',
                               onPress: () {
-                                //     Modular.to.pushNamed('produtoLista');
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        ProdutoSearch()));
                               },
                             );
                           }),
@@ -135,6 +141,9 @@ class _MenuView extends State<MenuView> {
                               botton: //controller.totPed.toString() +
                                   '1 pedidos registrados',
                               onPress: () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        PedidoList()));
                                 //  Modular.to.pushNamed('pedidoLista');
                               },
                             );
@@ -146,6 +155,9 @@ class _MenuView extends State<MenuView> {
                             header: 'Novo pedido',
                             botton: 'Registrar um novo pedido',
                             onPress: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        ClienteSearch()));
                               //  Modular.to.pushNamed('clienteSel');
                             },
                           ),
@@ -156,6 +168,9 @@ class _MenuView extends State<MenuView> {
                             header: 'Sincronizar',
                             botton: 'Enviar e atualizar a base',
                             onPress: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        SincroPage()));
                               // print(controller.totCat);
                               // Modular.to.pushNamed('sincro');
                             },

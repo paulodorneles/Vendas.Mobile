@@ -220,9 +220,9 @@ abstract class _AppControllerBase with Store {
   }
 
   @observable
-  int pedidototal = 0;
+  double pedidototal = 0;
 
   @action
-  void updpedidototal(int value) => pedidototal = value;
+  void updpedidototal(double value) => pedidototal = value;
   //--------------------------------
 }

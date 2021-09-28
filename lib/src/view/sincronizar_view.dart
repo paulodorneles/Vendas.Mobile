@@ -4,8 +4,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 //import '../../../app/datamodule/dm_remoto.dart';
 import 'package:vendas_app/src/context/mycontext.dart';
-import 'package:vendas_app/src/context/dm_remoto.dart';
 import 'package:vendas_app/src/app_controller.dart';
+import 'package:vendas_app/src/controller/sincronizar_controller.dart';
 import 'package:vendas_app/src/view/components/icon_header_view.dart';
 import 'package:vendas_app/src/view/components/botao_customizado.dart';
 import 'package:vendas_app/src/view/components/item_listtile.dart';
@@ -22,7 +22,9 @@ class _SincroPageState extends State<SincroPage> {
   bool cliente = false;
   bool pedido = false;
   bool produto = false;
+  var controllerSinc = new SincronizarController();
   var controller = new AppController();
+
 
   @override
   void dispose() {
@@ -111,8 +113,7 @@ class _SincroPageState extends State<SincroPage> {
             cor2: Color(0xff46997D),
             texto: 'Sincronizar',
             onPress: () async {
-              if (categ == true ||
-                  cliente == true ||
+              if (cliente == true ||
                   pedido == true ||
                   produto == true) {
                 pr = ProgressDialog(context);
@@ -121,19 +122,12 @@ class _SincroPageState extends State<SincroPage> {
 
                 if (pedido) {
                   pr.update(message: 'Enviando pedidos...');
-                  await enviaPedido(controller.enviaVendas);
-                }
-                if (categ) {
-                  pr.update(message: 'Atualizando Categorias...');
-                  await buscaCategorias(controller.categoriaRemoto);
-                  int ca = await Context.instance.countCa();
-                  controller.updTotCat(ca);
-                  print(controller.totCat);
-                }
+                  await controllerSinc.enviaPedidos();
+                }                
 
                 if (cliente) {
                   pr.update(message: 'Atualizando Clientes...');
-                  await enviarClientes(controller.enviaClientes);
+                  controllerSinc.buscarCliente();
                   // await buscaClientes(controller.clienteRemoto);
                   // int c = await Basedados.instance.countCl();
                   // controller.updtotCli(c);
@@ -141,7 +135,7 @@ class _SincroPageState extends State<SincroPage> {
 
                 if (produto) {
                   pr.update(message: 'Atualizando Produtos...');
-                  await buscaProdutos(controller.produtoRemoto);
+                  controllerSinc.buscarProduto();
                   int c = await Context.instance.countPr();
                   controller.updTotPro(c);
                 }

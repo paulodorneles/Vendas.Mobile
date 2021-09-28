@@ -298,13 +298,13 @@ mixin _$AppController on _AppControllerBase, Store {
   final _$pedidototalAtom = Atom(name: '_AppControllerBase.pedidototal');
 
   @override
-  int get pedidototal {
+  double get pedidototal {
     _$pedidototalAtom.reportRead();
     return super.pedidototal;
   }
 
   @override
-  set pedidototal(int value) {
+  set pedidototal(double value) {
     _$pedidototalAtom.reportWrite(value, super.pedidototal, () {
       super.pedidototal = value;
     });
@@ -538,7 +538,7 @@ mixin _$AppController on _AppControllerBase, Store {
   }
 
   @override
-  void updpedidototal(int value) {
+  void updpedidototal(double value) {
     final _$actionInfo = _$_AppControllerBaseActionController.startAction(
         name: '_AppControllerBase.updpedidototal');
     try {

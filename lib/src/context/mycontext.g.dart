@@ -1446,7 +1446,7 @@ class Pedido extends DataClass implements Insertable<Pedido> {
   final String idcliente;
   final String nomecliente;
   final String datapedido;
-  final int total;
+  final double total;
   final String totalfmt;
   final int enviado;
   Pedido(
@@ -1472,7 +1472,7 @@ class Pedido extends DataClass implements Insertable<Pedido> {
           .mapFromDatabaseResponse(data['${effectivePrefix}nomecliente']),
       datapedido: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}datapedido']),
-      total: const IntType()
+      total: const RealType()
           .mapFromDatabaseResponse(data['${effectivePrefix}total']),
       totalfmt: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}totalfmt']),
@@ -1499,7 +1499,7 @@ class Pedido extends DataClass implements Insertable<Pedido> {
       map['datapedido'] = Variable<String>(datapedido);
     }
     if (!nullToAbsent || total != null) {
-      map['total'] = Variable<int>(total);
+      map['total'] = Variable<double>(total);
     }
     if (!nullToAbsent || totalfmt != null) {
       map['totalfmt'] = Variable<String>(totalfmt);
@@ -1545,7 +1545,7 @@ class Pedido extends DataClass implements Insertable<Pedido> {
       idcliente: serializer.fromJson<String>(json['idcliente']),
       nomecliente: serializer.fromJson<String>(json['nomecliente']),
       datapedido: serializer.fromJson<String>(json['datapedido']),
-      total: serializer.fromJson<int>(json['total']),
+      total: serializer.fromJson<double>(json['total']),
       totalfmt: serializer.fromJson<String>(json['totalfmt']),
       enviado: serializer.fromJson<int>(json['enviado']),
     );
@@ -1559,7 +1559,7 @@ class Pedido extends DataClass implements Insertable<Pedido> {
       'idcliente': serializer.toJson<String>(idcliente),
       'nomecliente': serializer.toJson<String>(nomecliente),
       'datapedido': serializer.toJson<String>(datapedido),
-      'total': serializer.toJson<int>(total),
+      'total': serializer.toJson<double>(total),
       'totalfmt': serializer.toJson<String>(totalfmt),
       'enviado': serializer.toJson<int>(enviado),
     };
@@ -1571,7 +1571,7 @@ class Pedido extends DataClass implements Insertable<Pedido> {
           String idcliente,
           String nomecliente,
           String datapedido,
-          int total,
+          double total,
           String totalfmt,
           int enviado}) =>
       Pedido(
@@ -1632,7 +1632,7 @@ class PedidosCompanion extends UpdateCompanion<Pedido> {
   final Value<String> idcliente;
   final Value<String> nomecliente;
   final Value<String> datapedido;
-  final Value<int> total;
+  final Value<double> total;
   final Value<String> totalfmt;
   final Value<int> enviado;
   const PedidosCompanion({
@@ -1651,7 +1651,7 @@ class PedidosCompanion extends UpdateCompanion<Pedido> {
     @required String idcliente,
     @required String nomecliente,
     @required String datapedido,
-    @required int total,
+    @required double total,
     @required String totalfmt,
     this.enviado = const Value.absent(),
   })  : id = Value(id),
@@ -1667,7 +1667,7 @@ class PedidosCompanion extends UpdateCompanion<Pedido> {
     Expression<String> idcliente,
     Expression<String> nomecliente,
     Expression<String> datapedido,
-    Expression<int> total,
+    Expression<double> total,
     Expression<String> totalfmt,
     Expression<int> enviado,
   }) {
@@ -1689,7 +1689,7 @@ class PedidosCompanion extends UpdateCompanion<Pedido> {
       Value<String> idcliente,
       Value<String> nomecliente,
       Value<String> datapedido,
-      Value<int> total,
+      Value<double> total,
       Value<String> totalfmt,
       Value<int> enviado}) {
     return PedidosCompanion(
@@ -1723,7 +1723,7 @@ class PedidosCompanion extends UpdateCompanion<Pedido> {
       map['datapedido'] = Variable<String>(datapedido.value);
     }
     if (total.present) {
-      map['total'] = Variable<int>(total.value);
+      map['total'] = Variable<double>(total.value);
     }
     if (totalfmt.present) {
       map['totalfmt'] = Variable<String>(totalfmt.value);
@@ -1817,11 +1817,11 @@ class $PedidosTable extends Pedidos with TableInfo<$PedidosTable, Pedido> {
   }
 
   final VerificationMeta _totalMeta = const VerificationMeta('total');
-  GeneratedIntColumn _total;
+  GeneratedRealColumn _total;
   @override
-  GeneratedIntColumn get total => _total ??= _constructTotal();
-  GeneratedIntColumn _constructTotal() {
-    return GeneratedIntColumn(
+  GeneratedRealColumn get total => _total ??= _constructTotal();
+  GeneratedRealColumn _constructTotal() {
+    return GeneratedRealColumn(
       'total',
       $tableName,
       false,
@@ -1944,7 +1944,7 @@ class Iten extends DataClass implements Insertable<Iten> {
   final String idpedido;
   final int idproduto;
   final int qtde;
-  final int valor;
+  final double valor;
   final String totalfmt;
   final String nome;
   final int enviado;
@@ -1968,7 +1968,7 @@ class Iten extends DataClass implements Insertable<Iten> {
           .mapFromDatabaseResponse(data['${effectivePrefix}idproduto']),
       qtde: const IntType()
           .mapFromDatabaseResponse(data['${effectivePrefix}qtde']),
-      valor: const IntType()
+      valor: const RealType()
           .mapFromDatabaseResponse(data['${effectivePrefix}valor']),
       totalfmt: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}totalfmt']),
@@ -1994,7 +1994,7 @@ class Iten extends DataClass implements Insertable<Iten> {
       map['qtde'] = Variable<int>(qtde);
     }
     if (!nullToAbsent || valor != null) {
-      map['valor'] = Variable<int>(valor);
+      map['valor'] = Variable<double>(valor);
     }
     if (!nullToAbsent || totalfmt != null) {
       map['totalfmt'] = Variable<String>(totalfmt);
@@ -2038,7 +2038,7 @@ class Iten extends DataClass implements Insertable<Iten> {
       idpedido: serializer.fromJson<String>(json['idpedido']),
       idproduto: serializer.fromJson<int>(json['idproduto']),
       qtde: serializer.fromJson<int>(json['qtde']),
-      valor: serializer.fromJson<int>(json['valor']),
+      valor: serializer.fromJson<double>(json['valor']),
       totalfmt: serializer.fromJson<String>(json['totalfmt']),
       nome: serializer.fromJson<String>(json['nome']),
       enviado: serializer.fromJson<int>(json['enviado']),
@@ -2052,7 +2052,7 @@ class Iten extends DataClass implements Insertable<Iten> {
       'idpedido': serializer.toJson<String>(idpedido),
       'idproduto': serializer.toJson<int>(idproduto),
       'qtde': serializer.toJson<int>(qtde),
-      'valor': serializer.toJson<int>(valor),
+      'valor': serializer.toJson<double>(valor),
       'totalfmt': serializer.toJson<String>(totalfmt),
       'nome': serializer.toJson<String>(nome),
       'enviado': serializer.toJson<int>(enviado),
@@ -2064,7 +2064,7 @@ class Iten extends DataClass implements Insertable<Iten> {
           String idpedido,
           int idproduto,
           int qtde,
-          int valor,
+          double valor,
           String totalfmt,
           String nome,
           int enviado}) =>
@@ -2125,7 +2125,7 @@ class ItensCompanion extends UpdateCompanion<Iten> {
   final Value<String> idpedido;
   final Value<int> idproduto;
   final Value<int> qtde;
-  final Value<int> valor;
+  final Value<double> valor;
   final Value<String> totalfmt;
   final Value<String> nome;
   final Value<int> enviado;
@@ -2144,7 +2144,7 @@ class ItensCompanion extends UpdateCompanion<Iten> {
     @required String idpedido,
     @required int idproduto,
     @required int qtde,
-    @required int valor,
+    @required double valor,
     @required String totalfmt,
     @required String nome,
     this.enviado = const Value.absent(),
@@ -2159,7 +2159,7 @@ class ItensCompanion extends UpdateCompanion<Iten> {
     Expression<String> idpedido,
     Expression<int> idproduto,
     Expression<int> qtde,
-    Expression<int> valor,
+    Expression<double> valor,
     Expression<String> totalfmt,
     Expression<String> nome,
     Expression<int> enviado,
@@ -2181,7 +2181,7 @@ class ItensCompanion extends UpdateCompanion<Iten> {
       Value<String> idpedido,
       Value<int> idproduto,
       Value<int> qtde,
-      Value<int> valor,
+      Value<double> valor,
       Value<String> totalfmt,
       Value<String> nome,
       Value<int> enviado}) {
@@ -2213,7 +2213,7 @@ class ItensCompanion extends UpdateCompanion<Iten> {
       map['qtde'] = Variable<int>(qtde.value);
     }
     if (valor.present) {
-      map['valor'] = Variable<int>(valor.value);
+      map['valor'] = Variable<double>(valor.value);
     }
     if (totalfmt.present) {
       map['totalfmt'] = Variable<String>(totalfmt.value);
@@ -2293,11 +2293,11 @@ class $ItensTable extends Itens with TableInfo<$ItensTable, Iten> {
   }
 
   final VerificationMeta _valorMeta = const VerificationMeta('valor');
-  GeneratedIntColumn _valor;
+  GeneratedRealColumn _valor;
   @override
-  GeneratedIntColumn get valor => _valor ??= _constructValor();
-  GeneratedIntColumn _constructValor() {
-    return GeneratedIntColumn(
+  GeneratedRealColumn get valor => _valor ??= _constructValor();
+  GeneratedRealColumn _constructValor() {
+    return GeneratedRealColumn(
       'valor',
       $tableName,
       false,

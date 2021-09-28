@@ -49,7 +49,7 @@ class Pedidos extends Table {
   TextColumn get idcliente => text()();
   TextColumn get nomecliente => text()();
   TextColumn get datapedido => text()();
-  IntColumn get total => integer()();
+  RealColumn get total => real()();
   TextColumn get totalfmt => text()();
   IntColumn get enviado => integer().withDefault(const Constant(0))();
   @override
@@ -61,7 +61,7 @@ class Itens extends Table {
   TextColumn get idpedido => text()();
   IntColumn get idproduto => integer()();
   IntColumn get qtde => integer()();
-  IntColumn get valor => integer()();
+  RealColumn get valor => real()();
   TextColumn get totalfmt => text()();
   TextColumn get nome => text().withLength(max: 50)();
   IntColumn get enviado => integer().withDefault(const Constant(0))();
@@ -199,6 +199,14 @@ class Context extends _$Context {
   }
 
   //itens
+
+  Future<List<Iten>> itensPedido(String idPedido) {
+    return (select(itens)
+          ..addColumns([itens.idpedido, itens.idproduto, itens.qtde])
+          ..where((iten) => iten.idpedido.equals(idPedido)))
+        .get();
+  }
+
   Future addItem(Iten item) {
     return into(itens).insert(item);
   }
@@ -263,6 +271,11 @@ class Context extends _$Context {
     return (select(itens)..where((iten) => iten.enviado.equals(0))).get();
   }
 
+  Future alterarStatusPedido(String idPed) {
+    return customSelectQuery('Update Pedidos set enviado = 1 where id = "$idPed"')
+        .get();
+  }
+
   //selects para envio
 
   Future<List<Iten>> enviarItens() {
@@ -274,7 +287,7 @@ class Context extends _$Context {
 
   Future<List<Pedido>> enviarPedido() {
     return (select(pedidos)..where((pedido) => pedido.enviado.equals(0))).get();
-  }
+  }  
 
   Stream<List<Categoria>> enviaCat() {
     return (select(categorias)).watch().map((rows) => rows.map((row) {
