@@ -5,7 +5,7 @@ import 'dart:io';
 
 class ProdutoApi {
   static getProdutos() async {
-    var url = Constantes.url + "/Produto/Listar";
+    var url = Constantes.url + "Produto/Listar";
     //return await http.get(url);
     final ioc = new HttpClient();
     ioc.badCertificateCallback =

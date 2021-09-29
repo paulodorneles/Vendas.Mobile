@@ -25,7 +25,6 @@ class _SincroPageState extends State<SincroPage> {
   var controllerSinc = new SincronizarController();
   var controller = new AppController();
 
-
   @override
   void dispose() {
     super.dispose();
@@ -113,9 +112,7 @@ class _SincroPageState extends State<SincroPage> {
             cor2: Color(0xff46997D),
             texto: 'Sincronizar',
             onPress: () async {
-              if (cliente == true ||
-                  pedido == true ||
-                  produto == true) {
+              if (cliente == true || pedido == true || produto == true) {
                 pr = ProgressDialog(context);
                 pr.update(message: 'Aguarde...');
                 pr.show();
@@ -123,7 +120,7 @@ class _SincroPageState extends State<SincroPage> {
                 if (pedido) {
                   pr.update(message: 'Enviando pedidos...');
                   await controllerSinc.enviaPedidos();
-                }                
+                }
 
                 if (cliente) {
                   pr.update(message: 'Atualizando Clientes...');
@@ -143,7 +140,7 @@ class _SincroPageState extends State<SincroPage> {
                 pr.hide();
               }
               //volta ao menu
-              Navigator.of(context).pop();
+              //  Navigator.of(context).pop();
               //Modular.to.pop();
             },
           ),

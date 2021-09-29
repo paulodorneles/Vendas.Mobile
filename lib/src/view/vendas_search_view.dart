@@ -37,7 +37,7 @@ class _PedidoListState extends State<PedidoList> {
                     iconSize: 40,
                     onPressed: () {
                       //Modular.to.pop();
-                      Navigator.of(context).pop();  
+                      Navigator.of(context).pop();
                     },
                     color: Colors.white,
                   ),
@@ -110,7 +110,7 @@ class _PedidoListState extends State<PedidoList> {
                                         ),
                                         Spacer(),
                                         Text(
-                                          ped[index].totalfmt,
+                                          ped[index].total.toString(),
                                           style: TextStyle(fontSize: 16),
                                         ),
                                       ],

@@ -8,7 +8,7 @@ import 'dart:io';
 
 class VendasApi {
   static Future postVendas(PedidoModel pedido) async {
-    var url = Constantes.url + "/Vendas";
+    var url = Constantes.url + "Vendas";
     var body = json.encode(pedido.toJson());
 
     final ioc = new HttpClient();

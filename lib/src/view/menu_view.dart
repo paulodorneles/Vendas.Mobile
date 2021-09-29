@@ -6,6 +6,7 @@ import 'package:vendas_app/src/view/produto_search_view.dart';
 import 'package:vendas_app/src/view/sincronizar_view.dart';
 import 'package:vendas_app/src/view/vendas_search_view.dart';
 import 'package:vendas_app/src/view/vendas_sel_cliente_view.dart';
+import 'package:vendas_app/src/app_controller.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 
 class MenuView extends StatefulWidget {
@@ -15,6 +16,7 @@ class MenuView extends StatefulWidget {
 
 class _MenuView extends State<MenuView> {
   // @override
+  var controller = new AppController();
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xff317183),
@@ -31,7 +33,7 @@ class _MenuView extends State<MenuView> {
                   color: Colors.white,
                 ),
                 //nome do vendedor
-                Container( 
+                Container(
                   width: 250,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
@@ -106,8 +108,7 @@ class _MenuView extends State<MenuView> {
                             return MenuItem(
                               img: 'images/cliente.png',
                               header: 'Clientes',
-                              botton: // controller.totCli.toString() +
-                                  ' clientes registrados',
+                              botton:  controller.totCli.toString(),                                  
                               cor: Color(0xff317183),
                               onPress: () {
                                 Navigator.of(context).push(MaterialPageRoute(
@@ -123,8 +124,7 @@ class _MenuView extends State<MenuView> {
                             return MenuItem(
                               img: 'images/produto.png',
                               header: 'Produtos',
-                              botton: // controller.totProd.toString() +
-                                  ' produtos registrados',
+                              botton: controller.totProd.toString(),                                  
                               onPress: () {
                                 Navigator.of(context).push(MaterialPageRoute(
                                     builder: (BuildContext context) =>
@@ -138,8 +138,7 @@ class _MenuView extends State<MenuView> {
                             return MenuItem(
                               img: 'images/pedidos.png',
                               header: 'Pedidos',
-                              botton: //controller.totPed.toString() +
-                                  '1 pedidos registrados',
+                              botton: controller.totPed.toString(),                                   
                               onPress: () {
                                 Navigator.of(context).push(MaterialPageRoute(
                                     builder: (BuildContext context) =>
@@ -156,8 +155,8 @@ class _MenuView extends State<MenuView> {
                             botton: 'Registrar um novo pedido',
                             onPress: () {
                               Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (BuildContext context) =>
-                                        ClienteSearch()));
+                                  builder: (BuildContext context) =>
+                                      ClienteSel()));
                               //  Modular.to.pushNamed('clienteSel');
                             },
                           ),
@@ -169,8 +168,8 @@ class _MenuView extends State<MenuView> {
                             botton: 'Enviar e atualizar a base',
                             onPress: () {
                               Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (BuildContext context) =>
-                                        SincroPage()));
+                                  builder: (BuildContext context) =>
+                                      SincroPage()));
                               // print(controller.totCat);
                               // Modular.to.pushNamed('sincro');
                             },

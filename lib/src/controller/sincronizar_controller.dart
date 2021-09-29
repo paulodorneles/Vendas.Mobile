@@ -80,14 +80,13 @@ abstract class _SincronizarController with Store {
 
   // var util = new Util();
 
-  Future<void> sincronizarDados(
-      bool cliente, bool produto, bool vendas) async {
+  Future<void> sincronizarDados(bool cliente, bool produto, bool vendas) async {
     if (cliente) {
       buscarCliente();
     }
     if (produto) {
       buscarProduto();
-    }   
+    }
     if (vendas) {
       buscarProduto();
     }
@@ -108,18 +107,18 @@ abstract class _SincronizarController with Store {
           itemCliente = lista[count];
           Context.instance.addCliente(Cliente(
             id: itemCliente['cli_Id'],
-            nome: itemCliente['cli_Id'],
-            cnpj: itemCliente['cli_Id'],
-            bairro: itemCliente['cli_Id'],
-            cep: itemCliente['cli_Id'],
-            endereco: itemCliente['cli_Id'],
-            fantasia: itemCliente['cli_Id'],
-            lat: itemCliente['cli_Id'],
-            lng: itemCliente['cli_Id'],
-            municipio: itemCliente['cli_Id'],
-            numero: itemCliente['cli_Id'],
-            telefone: itemCliente['cli_Id'],
-            uf: itemCliente['cli_Id'],
+            nome: itemCliente['cli_Nome'],
+            cnpj: itemCliente['cli_CnpjCpf'],
+            bairro: itemCliente['cli_Bairro'],
+            cep: itemCliente['cli_Cep'],
+            endereco: itemCliente['cli_Endereco'],
+            fantasia: itemCliente['cli_Fantasia'],
+            lat: itemCliente['cli_Lat'],
+            lng: itemCliente['cli_Lng'],
+            municipio: itemCliente['cli_Municipio'],
+            numero: itemCliente['cli_Numero'],
+            telefone: itemCliente['cli_Telefone'],
+            uf: itemCliente['cli_UF'],
             alterado: 1,
           ));
 
@@ -148,14 +147,14 @@ abstract class _SincronizarController with Store {
         while (count <= lista.length) {
           itemProduto = lista[count];
           Context.instance.addProduto(Produto(
-            id: itemProduto['cli_Id'],
-            idcategoria: itemProduto['cli_Id'],
-            nome: itemProduto['cli_Id'],
-            preco: itemProduto['cli_Id'],
-            quant: itemProduto['cli_Id'],
-            total: itemProduto['cli_Id'],
-            unidade: itemProduto['cli_Id'],
-            valorfmt: itemProduto['cli_Id'],
+            id: itemProduto['pro_Id'],
+            idcategoria: itemProduto['pro_IdCategoria'],
+            nome: itemProduto['pro_Nome'],
+            preco: double.parse(itemProduto['pro_Preco'].toString()),
+            quant: 0,
+            total: 0,
+            unidade: itemProduto['pro_Unidade'],
+            //valorfmt: '',
           ));
 
           count++;
@@ -171,7 +170,7 @@ abstract class _SincronizarController with Store {
   }
 
   Future<void> enviaPedidos() async {
-    int count=0;
+    int count = 0;
     List _ped = await Context.instance.enviarPedido();
     //List _itens = await Context.instance.enviarItens();
 
@@ -185,8 +184,9 @@ abstract class _SincronizarController with Store {
     for (PedidoModel item in vendaEnt) {
       _itens = await Context.instance.itensPedido(item.pedId);
       for (Map map in _itens) {
-        item.pedidoItemModel.add(PedidoItemModel.fromJson(map)); //vendaEnt.add(PedidoModel.fromJson(item));
-      }      
+        item.pedidoItemModel.add(PedidoItemModel.fromJson(
+            map)); //vendaEnt.add(PedidoModel.fromJson(item));
+      }
     }
 
     for (PedidoModel item in vendaEnt) {
@@ -203,7 +203,7 @@ abstract class _SincronizarController with Store {
         } else {
           setStatusVendas('Erro ao enviar os dados!');
         }
-      }); 
+      });
       //data = DateTime.now().toString();
       //data = data.substring(0, 10);
       //item.venDataEnvio = data;
@@ -236,9 +236,8 @@ abstract class _SincronizarController with Store {
         });
       }); */
     }
-    
 
-   /* if (_ped.length > 0) {
+    /* if (_ped.length > 0) {
       String _jHeader = json.encode(_ped);
       var hEncodado = utf8.encode(_jHeader);
       var h = base64.encode(hEncodado);

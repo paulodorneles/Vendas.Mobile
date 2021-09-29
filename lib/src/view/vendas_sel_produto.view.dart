@@ -12,8 +12,13 @@ import 'package:intl/intl.dart';
 import 'package:vendas_app/src/shared/format.dart';
 import 'package:vendas_app/src/context/mycontext.dart';
 import 'package:vendas_app/src/app_controller.dart';
+import 'package:vendas_app/src/controller/vendas_controller.dart';
 
 class PedProduto extends StatefulWidget {
+  final nomeCli;
+  final codigoCli;
+
+  PedProduto({this.codigoCli, this.nomeCli});
   @override
   _PedProdutoState createState() => _PedProdutoState();
 }
@@ -21,6 +26,14 @@ class PedProduto extends StatefulWidget {
 class _PedProdutoState extends State<PedProduto> {
   TextEditingController _nomeProd = TextEditingController();
   var controller = new AppController();
+  var controllerPed = new VendasController();
+  // controllerPed.nomeCli = widget.nomeCli;
+
+  //String nomeCli = '';
+  //String codigoCli = '';
+
+  //controllerPed.nomeCli
+
   @override
   void initState() {
     super.initState();
@@ -55,8 +68,8 @@ class _PedProdutoState extends State<PedProduto> {
                   int _ts = _t ?? 0;
                   if (_ts > 0) {
                     await Context.instance.zeraProduto();
-                  }   
-                  Navigator.pop(context);             
+                  }
+                  Navigator.pop(context);
                   //  Modular.to.popUntil(ModalRoute.withName('menu'));
                 },
                 child: Text(
@@ -70,7 +83,7 @@ class _PedProdutoState extends State<PedProduto> {
               Observer(
                 builder: (_) {
                   return Text(
-                    controller.pedidoSubtotal,
+                    controllerPed.pedidoTotal,
                     style: TextStyle(
                       color: Colors.white,
                     ),
@@ -80,24 +93,7 @@ class _PedProdutoState extends State<PedProduto> {
               Spacer(),
               OutlineButton(
                 onPressed: () async {
-                  if (controller.pedidototal > 0) {
-                    await Context.instance.addPedido(
-                      Pedido(
-                          id: controller.pedidoCodigo,
-                          idvendedor: controller.idUsuario,
-                          idcliente: controller.pedidoClienteId,
-                          nomecliente: controller.pNomeCliente,
-                          datapedido: Jiffy().format('dd[/]MM[/]yyyy'),
-                          total: controller.pedidototal,
-                          totalfmt: controller.pedidoSubtotal,
-                          enviado: 0),
-                    );
-                    await Context.instance
-                        .gravaItens(controller.pedidoCodigo);
-                    await Context.instance.zeraProduto();
-
-                    controller.updpedidototal(0);
-                  }
+                  controllerPed.salvarPedido(widget.nomeCli, widget.codigoCli);
 
                   int _totped = await Context.instance.countPe();
                   controller.updTotPed(_totped);
@@ -234,7 +230,7 @@ class _PedProdutoState extends State<PedProduto> {
                                 subtitle: Row(
                                   children: [
                                     Text(
-                                      prod[index].valorfmt +
+                                      prod[index].preco.toString() +
                                           ' - ' +
                                           prod[index].unidade,
                                       style: TextStyle(
@@ -244,7 +240,7 @@ class _PedProdutoState extends State<PedProduto> {
                                     Spacer(),
                                     prod[index].quant > 0
                                         ? Text(
-                                            prod[index].total,
+                                            prod[index].total.toString(),
                                             style: TextStyle(
                                               color: Color(0xff46997D),
                                             ),
@@ -278,48 +274,9 @@ class _PedProdutoState extends State<PedProduto> {
                                         iconDisabledColor: Colors.grey,
                                         iconPadding: EdgeInsets.all(20),
                                         onChanged: (val) async {
+                                          controllerPed.salvarItem(
+                                              val, prod[index]);
                                           // print(val);
-                                          double _sTotal =
-                                              val * prod[index].preco / 100;
-                                          String _totalFormatado;
-                                          _sTotal < double.tryParse('10')
-                                              ? _totalFormatado = 'R\$ ' +
-                                                  _sTotal.toStringAsPrecision(3)
-                                              : _totalFormatado = 'R\$ ' +
-                                                  _sTotal
-                                                      .toStringAsPrecision(4);
-                                          print(_totalFormatado);
-
-                                          Context.instance.updProduto(
-                                            Produto(
-                                              id: prod[index].id,
-                                              idcategoria:
-                                                  prod[index].idcategoria,
-                                              unidade: prod[index].unidade,
-                                              preco: prod[index].preco,
-                                              nome: prod[index].nome,
-                                              quant: val,
-                                              valorfmt: prod[index].valorfmt,
-                                              total: _totalFormatado,
-                                            ),
-                                          );
-
-                                          var _t = await Context.instance
-                                              .subtotalVenda();
-                                          double _ts = _t ?? 0;
-
-                                          controller.updpedidototal(_ts);
-
-                                          Currency ptBr = Currency.create(
-                                              'BRL', 2,
-                                              symbol: 'R\$ ');
-                                          String _totalGeralFmt =
-                                              Money.from(_ts, ptBr)
-                                                  .toString();
-
-                                          controller.updpedidoSubtotal(
-                                              _totalGeralFmt);
-                                          print(controller.pedidoSubtotal);
                                         },
                                       ),
                                     ),

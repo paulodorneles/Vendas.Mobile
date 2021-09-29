@@ -15,10 +15,9 @@ class Produtos extends Table {
   TextColumn get nome => text().withLength(max: 50)();
   IntColumn get idcategoria => integer()();
   TextColumn get unidade => text()();
-  IntColumn get preco => integer()();
-  TextColumn get valorfmt => text()();
-  TextColumn get total => text()();
-  // RealColumn get quant => real()();
+  RealColumn get preco => real()();
+  //TextColumn get valorfmt => text()();
+  RealColumn get total => real()();
   IntColumn get quant => integer()();
   @override
   Set<Column> get primaryKey => {id};
@@ -50,7 +49,7 @@ class Pedidos extends Table {
   TextColumn get nomecliente => text()();
   TextColumn get datapedido => text()();
   RealColumn get total => real()();
-  TextColumn get totalfmt => text()();
+  //TextColumn get totalfmt => text()();
   IntColumn get enviado => integer().withDefault(const Constant(0))();
   @override
   Set<Column> get primaryKey => {id};
@@ -62,7 +61,7 @@ class Itens extends Table {
   IntColumn get idproduto => integer()();
   IntColumn get qtde => integer()();
   RealColumn get valor => real()();
-  TextColumn get totalfmt => text()();
+  //TextColumn get totalfmt => text()();
   TextColumn get nome => text().withLength(max: 50)();
   IntColumn get enviado => integer().withDefault(const Constant(0))();
 }
@@ -145,12 +144,24 @@ class Context extends _$Context {
   TextColumn get nome => text().withLength(max: 50)();
   IntColumn get enviado => integer().withDefault(const Constant(0))();
    */
+  /*Selectable<String> dayExpenses(double start, double end) {
+    return customSelect(
+        'SELECT sum(t.amount) FROM transactions t WHERE t.date BETWEEN :start and :end AND t.amount <= 0 GROUP BY date(t.date);',
+        variables: [Variable.withReal(start), Variable.withReal(end)],
+        readsFrom: {}).map((QueryRow row) => row.read('sum(t.amount)'));
+  } */
 
   subtotalVenda() {
-    return customSelectQuery(
-            'select SUM(preco * quant) as total from produtos where quant > 0')
+    return customSelect(
+            'select SUM(quant) as total from produtos where quant > 0')
         .getSingle()
         .then((row) => row.data["total"]);
+
+    //  return customSelect(
+    //          'select SUM(preco * quant) as total from produtos where quant > 0')
+    //      .map((row) => row.readDouble('c')).watch();
+
+    // return teste;
   }
 
   Stream<List<Produto>> getProduto(String nomeProd) {
@@ -272,7 +283,8 @@ class Context extends _$Context {
   }
 
   Future alterarStatusPedido(String idPed) {
-    return customSelectQuery('Update Pedidos set enviado = 1 where id = "$idPed"')
+    return customSelectQuery(
+            'Update Pedidos set enviado = 1 where id = "$idPed"')
         .get();
   }
 
@@ -287,7 +299,7 @@ class Context extends _$Context {
 
   Future<List<Pedido>> enviarPedido() {
     return (select(pedidos)..where((pedido) => pedido.enviado.equals(0))).get();
-  }  
+  }
 
   Stream<List<Categoria>> enviaCat() {
     return (select(categorias)).watch().map((rows) => rows.map((row) {

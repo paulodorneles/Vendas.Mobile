@@ -37,7 +37,7 @@ class _ProdutoSearchState extends State<ProdutoSearch> {
                     icon: Icon(Icons.arrow_back_ios),
                     iconSize: 40,
                     onPressed: () {
-                      Navigator.of(context).pop();                      
+                      Navigator.of(context).pop();
                     },
                     color: Colors.white,
                   ),
@@ -145,7 +145,8 @@ class _ProdutoSearchState extends State<ProdutoSearch> {
                                       ),
                                       Spacer(),
                                       Text(
-                                        'Valor: ' + prod[index].valorfmt,
+                                        'Valor: ' +
+                                            prod[index].preco.toString(),
                                         style: TextStyle(
                                           color: Color(0xff317183),
                                           fontWeight: FontWeight.w600,

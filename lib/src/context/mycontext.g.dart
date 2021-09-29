@@ -196,9 +196,8 @@ class Produto extends DataClass implements Insertable<Produto> {
   final String nome;
   final int idcategoria;
   final String unidade;
-  final int preco;
-  final String valorfmt;
-  final String total;
+  final double preco;
+  final double total;
   final int quant;
   Produto(
       {@required this.id,
@@ -206,7 +205,6 @@ class Produto extends DataClass implements Insertable<Produto> {
       @required this.idcategoria,
       @required this.unidade,
       @required this.preco,
-      @required this.valorfmt,
       @required this.total,
       @required this.quant});
   factory Produto.fromData(Map<String, dynamic> data, GeneratedDatabase db,
@@ -220,11 +218,9 @@ class Produto extends DataClass implements Insertable<Produto> {
           .mapFromDatabaseResponse(data['${effectivePrefix}idcategoria']),
       unidade: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}unidade']),
-      preco: const IntType()
+      preco: const RealType()
           .mapFromDatabaseResponse(data['${effectivePrefix}preco']),
-      valorfmt: const StringType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}valorfmt']),
-      total: const StringType()
+      total: const RealType()
           .mapFromDatabaseResponse(data['${effectivePrefix}total']),
       quant: const IntType()
           .mapFromDatabaseResponse(data['${effectivePrefix}quant']),
@@ -246,13 +242,10 @@ class Produto extends DataClass implements Insertable<Produto> {
       map['unidade'] = Variable<String>(unidade);
     }
     if (!nullToAbsent || preco != null) {
-      map['preco'] = Variable<int>(preco);
-    }
-    if (!nullToAbsent || valorfmt != null) {
-      map['valorfmt'] = Variable<String>(valorfmt);
+      map['preco'] = Variable<double>(preco);
     }
     if (!nullToAbsent || total != null) {
-      map['total'] = Variable<String>(total);
+      map['total'] = Variable<double>(total);
     }
     if (!nullToAbsent || quant != null) {
       map['quant'] = Variable<int>(quant);
@@ -272,9 +265,6 @@ class Produto extends DataClass implements Insertable<Produto> {
           : Value(unidade),
       preco:
           preco == null && nullToAbsent ? const Value.absent() : Value(preco),
-      valorfmt: valorfmt == null && nullToAbsent
-          ? const Value.absent()
-          : Value(valorfmt),
       total:
           total == null && nullToAbsent ? const Value.absent() : Value(total),
       quant:
@@ -290,9 +280,8 @@ class Produto extends DataClass implements Insertable<Produto> {
       nome: serializer.fromJson<String>(json['nome']),
       idcategoria: serializer.fromJson<int>(json['idcategoria']),
       unidade: serializer.fromJson<String>(json['unidade']),
-      preco: serializer.fromJson<int>(json['preco']),
-      valorfmt: serializer.fromJson<String>(json['valorfmt']),
-      total: serializer.fromJson<String>(json['total']),
+      preco: serializer.fromJson<double>(json['preco']),
+      total: serializer.fromJson<double>(json['total']),
       quant: serializer.fromJson<int>(json['quant']),
     );
   }
@@ -304,9 +293,8 @@ class Produto extends DataClass implements Insertable<Produto> {
       'nome': serializer.toJson<String>(nome),
       'idcategoria': serializer.toJson<int>(idcategoria),
       'unidade': serializer.toJson<String>(unidade),
-      'preco': serializer.toJson<int>(preco),
-      'valorfmt': serializer.toJson<String>(valorfmt),
-      'total': serializer.toJson<String>(total),
+      'preco': serializer.toJson<double>(preco),
+      'total': serializer.toJson<double>(total),
       'quant': serializer.toJson<int>(quant),
     };
   }
@@ -316,9 +304,8 @@ class Produto extends DataClass implements Insertable<Produto> {
           String nome,
           int idcategoria,
           String unidade,
-          int preco,
-          String valorfmt,
-          String total,
+          double preco,
+          double total,
           int quant}) =>
       Produto(
         id: id ?? this.id,
@@ -326,7 +313,6 @@ class Produto extends DataClass implements Insertable<Produto> {
         idcategoria: idcategoria ?? this.idcategoria,
         unidade: unidade ?? this.unidade,
         preco: preco ?? this.preco,
-        valorfmt: valorfmt ?? this.valorfmt,
         total: total ?? this.total,
         quant: quant ?? this.quant,
       );
@@ -338,7 +324,6 @@ class Produto extends DataClass implements Insertable<Produto> {
           ..write('idcategoria: $idcategoria, ')
           ..write('unidade: $unidade, ')
           ..write('preco: $preco, ')
-          ..write('valorfmt: $valorfmt, ')
           ..write('total: $total, ')
           ..write('quant: $quant')
           ..write(')'))
@@ -354,10 +339,8 @@ class Produto extends DataClass implements Insertable<Produto> {
               idcategoria.hashCode,
               $mrjc(
                   unidade.hashCode,
-                  $mrjc(
-                      preco.hashCode,
-                      $mrjc(valorfmt.hashCode,
-                          $mrjc(total.hashCode, quant.hashCode))))))));
+                  $mrjc(preco.hashCode,
+                      $mrjc(total.hashCode, quant.hashCode)))))));
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -367,7 +350,6 @@ class Produto extends DataClass implements Insertable<Produto> {
           other.idcategoria == this.idcategoria &&
           other.unidade == this.unidade &&
           other.preco == this.preco &&
-          other.valorfmt == this.valorfmt &&
           other.total == this.total &&
           other.quant == this.quant);
 }
@@ -377,9 +359,8 @@ class ProdutosCompanion extends UpdateCompanion<Produto> {
   final Value<String> nome;
   final Value<int> idcategoria;
   final Value<String> unidade;
-  final Value<int> preco;
-  final Value<String> valorfmt;
-  final Value<String> total;
+  final Value<double> preco;
+  final Value<double> total;
   final Value<int> quant;
   const ProdutosCompanion({
     this.id = const Value.absent(),
@@ -387,7 +368,6 @@ class ProdutosCompanion extends UpdateCompanion<Produto> {
     this.idcategoria = const Value.absent(),
     this.unidade = const Value.absent(),
     this.preco = const Value.absent(),
-    this.valorfmt = const Value.absent(),
     this.total = const Value.absent(),
     this.quant = const Value.absent(),
   });
@@ -396,15 +376,13 @@ class ProdutosCompanion extends UpdateCompanion<Produto> {
     @required String nome,
     @required int idcategoria,
     @required String unidade,
-    @required int preco,
-    @required String valorfmt,
-    @required String total,
+    @required double preco,
+    @required double total,
     @required int quant,
   })  : nome = Value(nome),
         idcategoria = Value(idcategoria),
         unidade = Value(unidade),
         preco = Value(preco),
-        valorfmt = Value(valorfmt),
         total = Value(total),
         quant = Value(quant);
   static Insertable<Produto> custom({
@@ -412,9 +390,8 @@ class ProdutosCompanion extends UpdateCompanion<Produto> {
     Expression<String> nome,
     Expression<int> idcategoria,
     Expression<String> unidade,
-    Expression<int> preco,
-    Expression<String> valorfmt,
-    Expression<String> total,
+    Expression<double> preco,
+    Expression<double> total,
     Expression<int> quant,
   }) {
     return RawValuesInsertable({
@@ -423,7 +400,6 @@ class ProdutosCompanion extends UpdateCompanion<Produto> {
       if (idcategoria != null) 'idcategoria': idcategoria,
       if (unidade != null) 'unidade': unidade,
       if (preco != null) 'preco': preco,
-      if (valorfmt != null) 'valorfmt': valorfmt,
       if (total != null) 'total': total,
       if (quant != null) 'quant': quant,
     });
@@ -434,9 +410,8 @@ class ProdutosCompanion extends UpdateCompanion<Produto> {
       Value<String> nome,
       Value<int> idcategoria,
       Value<String> unidade,
-      Value<int> preco,
-      Value<String> valorfmt,
-      Value<String> total,
+      Value<double> preco,
+      Value<double> total,
       Value<int> quant}) {
     return ProdutosCompanion(
       id: id ?? this.id,
@@ -444,7 +419,6 @@ class ProdutosCompanion extends UpdateCompanion<Produto> {
       idcategoria: idcategoria ?? this.idcategoria,
       unidade: unidade ?? this.unidade,
       preco: preco ?? this.preco,
-      valorfmt: valorfmt ?? this.valorfmt,
       total: total ?? this.total,
       quant: quant ?? this.quant,
     );
@@ -466,13 +440,10 @@ class ProdutosCompanion extends UpdateCompanion<Produto> {
       map['unidade'] = Variable<String>(unidade.value);
     }
     if (preco.present) {
-      map['preco'] = Variable<int>(preco.value);
-    }
-    if (valorfmt.present) {
-      map['valorfmt'] = Variable<String>(valorfmt.value);
+      map['preco'] = Variable<double>(preco.value);
     }
     if (total.present) {
-      map['total'] = Variable<String>(total.value);
+      map['total'] = Variable<double>(total.value);
     }
     if (quant.present) {
       map['quant'] = Variable<int>(quant.value);
@@ -488,7 +459,6 @@ class ProdutosCompanion extends UpdateCompanion<Produto> {
           ..write('idcategoria: $idcategoria, ')
           ..write('unidade: $unidade, ')
           ..write('preco: $preco, ')
-          ..write('valorfmt: $valorfmt, ')
           ..write('total: $total, ')
           ..write('quant: $quant')
           ..write(')'))
@@ -547,35 +517,23 @@ class $ProdutosTable extends Produtos with TableInfo<$ProdutosTable, Produto> {
   }
 
   final VerificationMeta _precoMeta = const VerificationMeta('preco');
-  GeneratedIntColumn _preco;
+  GeneratedRealColumn _preco;
   @override
-  GeneratedIntColumn get preco => _preco ??= _constructPreco();
-  GeneratedIntColumn _constructPreco() {
-    return GeneratedIntColumn(
+  GeneratedRealColumn get preco => _preco ??= _constructPreco();
+  GeneratedRealColumn _constructPreco() {
+    return GeneratedRealColumn(
       'preco',
       $tableName,
       false,
     );
   }
 
-  final VerificationMeta _valorfmtMeta = const VerificationMeta('valorfmt');
-  GeneratedTextColumn _valorfmt;
-  @override
-  GeneratedTextColumn get valorfmt => _valorfmt ??= _constructValorfmt();
-  GeneratedTextColumn _constructValorfmt() {
-    return GeneratedTextColumn(
-      'valorfmt',
-      $tableName,
-      false,
-    );
-  }
-
   final VerificationMeta _totalMeta = const VerificationMeta('total');
-  GeneratedTextColumn _total;
+  GeneratedRealColumn _total;
   @override
-  GeneratedTextColumn get total => _total ??= _constructTotal();
-  GeneratedTextColumn _constructTotal() {
-    return GeneratedTextColumn(
+  GeneratedRealColumn get total => _total ??= _constructTotal();
+  GeneratedRealColumn _constructTotal() {
+    return GeneratedRealColumn(
       'total',
       $tableName,
       false,
@@ -596,7 +554,7 @@ class $ProdutosTable extends Produtos with TableInfo<$ProdutosTable, Produto> {
 
   @override
   List<GeneratedColumn> get $columns =>
-      [id, nome, idcategoria, unidade, preco, valorfmt, total, quant];
+      [id, nome, idcategoria, unidade, preco, total, quant];
   @override
   $ProdutosTable get asDslTable => this;
   @override
@@ -636,12 +594,6 @@ class $ProdutosTable extends Produtos with TableInfo<$ProdutosTable, Produto> {
           _precoMeta, preco.isAcceptableOrUnknown(data['preco'], _precoMeta));
     } else if (isInserting) {
       context.missing(_precoMeta);
-    }
-    if (data.containsKey('valorfmt')) {
-      context.handle(_valorfmtMeta,
-          valorfmt.isAcceptableOrUnknown(data['valorfmt'], _valorfmtMeta));
-    } else if (isInserting) {
-      context.missing(_valorfmtMeta);
     }
     if (data.containsKey('total')) {
       context.handle(
@@ -1447,7 +1399,6 @@ class Pedido extends DataClass implements Insertable<Pedido> {
   final String nomecliente;
   final String datapedido;
   final double total;
-  final String totalfmt;
   final int enviado;
   Pedido(
       {@required this.id,
@@ -1456,7 +1407,6 @@ class Pedido extends DataClass implements Insertable<Pedido> {
       @required this.nomecliente,
       @required this.datapedido,
       @required this.total,
-      @required this.totalfmt,
       @required this.enviado});
   factory Pedido.fromData(Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
@@ -1474,8 +1424,6 @@ class Pedido extends DataClass implements Insertable<Pedido> {
           .mapFromDatabaseResponse(data['${effectivePrefix}datapedido']),
       total: const RealType()
           .mapFromDatabaseResponse(data['${effectivePrefix}total']),
-      totalfmt: const StringType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}totalfmt']),
       enviado: const IntType()
           .mapFromDatabaseResponse(data['${effectivePrefix}enviado']),
     );
@@ -1501,9 +1449,6 @@ class Pedido extends DataClass implements Insertable<Pedido> {
     if (!nullToAbsent || total != null) {
       map['total'] = Variable<double>(total);
     }
-    if (!nullToAbsent || totalfmt != null) {
-      map['totalfmt'] = Variable<String>(totalfmt);
-    }
     if (!nullToAbsent || enviado != null) {
       map['enviado'] = Variable<int>(enviado);
     }
@@ -1527,9 +1472,6 @@ class Pedido extends DataClass implements Insertable<Pedido> {
           : Value(datapedido),
       total:
           total == null && nullToAbsent ? const Value.absent() : Value(total),
-      totalfmt: totalfmt == null && nullToAbsent
-          ? const Value.absent()
-          : Value(totalfmt),
       enviado: enviado == null && nullToAbsent
           ? const Value.absent()
           : Value(enviado),
@@ -1546,7 +1488,6 @@ class Pedido extends DataClass implements Insertable<Pedido> {
       nomecliente: serializer.fromJson<String>(json['nomecliente']),
       datapedido: serializer.fromJson<String>(json['datapedido']),
       total: serializer.fromJson<double>(json['total']),
-      totalfmt: serializer.fromJson<String>(json['totalfmt']),
       enviado: serializer.fromJson<int>(json['enviado']),
     );
   }
@@ -1560,7 +1501,6 @@ class Pedido extends DataClass implements Insertable<Pedido> {
       'nomecliente': serializer.toJson<String>(nomecliente),
       'datapedido': serializer.toJson<String>(datapedido),
       'total': serializer.toJson<double>(total),
-      'totalfmt': serializer.toJson<String>(totalfmt),
       'enviado': serializer.toJson<int>(enviado),
     };
   }
@@ -1572,7 +1512,6 @@ class Pedido extends DataClass implements Insertable<Pedido> {
           String nomecliente,
           String datapedido,
           double total,
-          String totalfmt,
           int enviado}) =>
       Pedido(
         id: id ?? this.id,
@@ -1581,7 +1520,6 @@ class Pedido extends DataClass implements Insertable<Pedido> {
         nomecliente: nomecliente ?? this.nomecliente,
         datapedido: datapedido ?? this.datapedido,
         total: total ?? this.total,
-        totalfmt: totalfmt ?? this.totalfmt,
         enviado: enviado ?? this.enviado,
       );
   @override
@@ -1593,7 +1531,6 @@ class Pedido extends DataClass implements Insertable<Pedido> {
           ..write('nomecliente: $nomecliente, ')
           ..write('datapedido: $datapedido, ')
           ..write('total: $total, ')
-          ..write('totalfmt: $totalfmt, ')
           ..write('enviado: $enviado')
           ..write(')'))
         .toString();
@@ -1608,10 +1545,8 @@ class Pedido extends DataClass implements Insertable<Pedido> {
               idcliente.hashCode,
               $mrjc(
                   nomecliente.hashCode,
-                  $mrjc(
-                      datapedido.hashCode,
-                      $mrjc(total.hashCode,
-                          $mrjc(totalfmt.hashCode, enviado.hashCode))))))));
+                  $mrjc(datapedido.hashCode,
+                      $mrjc(total.hashCode, enviado.hashCode)))))));
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -1622,7 +1557,6 @@ class Pedido extends DataClass implements Insertable<Pedido> {
           other.nomecliente == this.nomecliente &&
           other.datapedido == this.datapedido &&
           other.total == this.total &&
-          other.totalfmt == this.totalfmt &&
           other.enviado == this.enviado);
 }
 
@@ -1633,7 +1567,6 @@ class PedidosCompanion extends UpdateCompanion<Pedido> {
   final Value<String> nomecliente;
   final Value<String> datapedido;
   final Value<double> total;
-  final Value<String> totalfmt;
   final Value<int> enviado;
   const PedidosCompanion({
     this.id = const Value.absent(),
@@ -1642,7 +1575,6 @@ class PedidosCompanion extends UpdateCompanion<Pedido> {
     this.nomecliente = const Value.absent(),
     this.datapedido = const Value.absent(),
     this.total = const Value.absent(),
-    this.totalfmt = const Value.absent(),
     this.enviado = const Value.absent(),
   });
   PedidosCompanion.insert({
@@ -1652,15 +1584,13 @@ class PedidosCompanion extends UpdateCompanion<Pedido> {
     @required String nomecliente,
     @required String datapedido,
     @required double total,
-    @required String totalfmt,
     this.enviado = const Value.absent(),
   })  : id = Value(id),
         idvendedor = Value(idvendedor),
         idcliente = Value(idcliente),
         nomecliente = Value(nomecliente),
         datapedido = Value(datapedido),
-        total = Value(total),
-        totalfmt = Value(totalfmt);
+        total = Value(total);
   static Insertable<Pedido> custom({
     Expression<String> id,
     Expression<int> idvendedor,
@@ -1668,7 +1598,6 @@ class PedidosCompanion extends UpdateCompanion<Pedido> {
     Expression<String> nomecliente,
     Expression<String> datapedido,
     Expression<double> total,
-    Expression<String> totalfmt,
     Expression<int> enviado,
   }) {
     return RawValuesInsertable({
@@ -1678,7 +1607,6 @@ class PedidosCompanion extends UpdateCompanion<Pedido> {
       if (nomecliente != null) 'nomecliente': nomecliente,
       if (datapedido != null) 'datapedido': datapedido,
       if (total != null) 'total': total,
-      if (totalfmt != null) 'totalfmt': totalfmt,
       if (enviado != null) 'enviado': enviado,
     });
   }
@@ -1690,7 +1618,6 @@ class PedidosCompanion extends UpdateCompanion<Pedido> {
       Value<String> nomecliente,
       Value<String> datapedido,
       Value<double> total,
-      Value<String> totalfmt,
       Value<int> enviado}) {
     return PedidosCompanion(
       id: id ?? this.id,
@@ -1699,7 +1626,6 @@ class PedidosCompanion extends UpdateCompanion<Pedido> {
       nomecliente: nomecliente ?? this.nomecliente,
       datapedido: datapedido ?? this.datapedido,
       total: total ?? this.total,
-      totalfmt: totalfmt ?? this.totalfmt,
       enviado: enviado ?? this.enviado,
     );
   }
@@ -1725,9 +1651,6 @@ class PedidosCompanion extends UpdateCompanion<Pedido> {
     if (total.present) {
       map['total'] = Variable<double>(total.value);
     }
-    if (totalfmt.present) {
-      map['totalfmt'] = Variable<String>(totalfmt.value);
-    }
     if (enviado.present) {
       map['enviado'] = Variable<int>(enviado.value);
     }
@@ -1743,7 +1666,6 @@ class PedidosCompanion extends UpdateCompanion<Pedido> {
           ..write('nomecliente: $nomecliente, ')
           ..write('datapedido: $datapedido, ')
           ..write('total: $total, ')
-          ..write('totalfmt: $totalfmt, ')
           ..write('enviado: $enviado')
           ..write(')'))
         .toString();
@@ -1828,18 +1750,6 @@ class $PedidosTable extends Pedidos with TableInfo<$PedidosTable, Pedido> {
     );
   }
 
-  final VerificationMeta _totalfmtMeta = const VerificationMeta('totalfmt');
-  GeneratedTextColumn _totalfmt;
-  @override
-  GeneratedTextColumn get totalfmt => _totalfmt ??= _constructTotalfmt();
-  GeneratedTextColumn _constructTotalfmt() {
-    return GeneratedTextColumn(
-      'totalfmt',
-      $tableName,
-      false,
-    );
-  }
-
   final VerificationMeta _enviadoMeta = const VerificationMeta('enviado');
   GeneratedIntColumn _enviado;
   @override
@@ -1850,16 +1760,8 @@ class $PedidosTable extends Pedidos with TableInfo<$PedidosTable, Pedido> {
   }
 
   @override
-  List<GeneratedColumn> get $columns => [
-        id,
-        idvendedor,
-        idcliente,
-        nomecliente,
-        datapedido,
-        total,
-        totalfmt,
-        enviado
-      ];
+  List<GeneratedColumn> get $columns =>
+      [id, idvendedor, idcliente, nomecliente, datapedido, total, enviado];
   @override
   $PedidosTable get asDslTable => this;
   @override
@@ -1912,12 +1814,6 @@ class $PedidosTable extends Pedidos with TableInfo<$PedidosTable, Pedido> {
     } else if (isInserting) {
       context.missing(_totalMeta);
     }
-    if (data.containsKey('totalfmt')) {
-      context.handle(_totalfmtMeta,
-          totalfmt.isAcceptableOrUnknown(data['totalfmt'], _totalfmtMeta));
-    } else if (isInserting) {
-      context.missing(_totalfmtMeta);
-    }
     if (data.containsKey('enviado')) {
       context.handle(_enviadoMeta,
           enviado.isAcceptableOrUnknown(data['enviado'], _enviadoMeta));
@@ -1945,7 +1841,6 @@ class Iten extends DataClass implements Insertable<Iten> {
   final int idproduto;
   final int qtde;
   final double valor;
-  final String totalfmt;
   final String nome;
   final int enviado;
   Iten(
@@ -1954,7 +1849,6 @@ class Iten extends DataClass implements Insertable<Iten> {
       @required this.idproduto,
       @required this.qtde,
       @required this.valor,
-      @required this.totalfmt,
       @required this.nome,
       @required this.enviado});
   factory Iten.fromData(Map<String, dynamic> data, GeneratedDatabase db,
@@ -1970,8 +1864,6 @@ class Iten extends DataClass implements Insertable<Iten> {
           .mapFromDatabaseResponse(data['${effectivePrefix}qtde']),
       valor: const RealType()
           .mapFromDatabaseResponse(data['${effectivePrefix}valor']),
-      totalfmt: const StringType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}totalfmt']),
       nome: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}nome']),
       enviado: const IntType()
@@ -1996,9 +1888,6 @@ class Iten extends DataClass implements Insertable<Iten> {
     if (!nullToAbsent || valor != null) {
       map['valor'] = Variable<double>(valor);
     }
-    if (!nullToAbsent || totalfmt != null) {
-      map['totalfmt'] = Variable<String>(totalfmt);
-    }
     if (!nullToAbsent || nome != null) {
       map['nome'] = Variable<String>(nome);
     }
@@ -2020,9 +1909,6 @@ class Iten extends DataClass implements Insertable<Iten> {
       qtde: qtde == null && nullToAbsent ? const Value.absent() : Value(qtde),
       valor:
           valor == null && nullToAbsent ? const Value.absent() : Value(valor),
-      totalfmt: totalfmt == null && nullToAbsent
-          ? const Value.absent()
-          : Value(totalfmt),
       nome: nome == null && nullToAbsent ? const Value.absent() : Value(nome),
       enviado: enviado == null && nullToAbsent
           ? const Value.absent()
@@ -2039,7 +1925,6 @@ class Iten extends DataClass implements Insertable<Iten> {
       idproduto: serializer.fromJson<int>(json['idproduto']),
       qtde: serializer.fromJson<int>(json['qtde']),
       valor: serializer.fromJson<double>(json['valor']),
-      totalfmt: serializer.fromJson<String>(json['totalfmt']),
       nome: serializer.fromJson<String>(json['nome']),
       enviado: serializer.fromJson<int>(json['enviado']),
     );
@@ -2053,7 +1938,6 @@ class Iten extends DataClass implements Insertable<Iten> {
       'idproduto': serializer.toJson<int>(idproduto),
       'qtde': serializer.toJson<int>(qtde),
       'valor': serializer.toJson<double>(valor),
-      'totalfmt': serializer.toJson<String>(totalfmt),
       'nome': serializer.toJson<String>(nome),
       'enviado': serializer.toJson<int>(enviado),
     };
@@ -2065,7 +1949,6 @@ class Iten extends DataClass implements Insertable<Iten> {
           int idproduto,
           int qtde,
           double valor,
-          String totalfmt,
           String nome,
           int enviado}) =>
       Iten(
@@ -2074,7 +1957,6 @@ class Iten extends DataClass implements Insertable<Iten> {
         idproduto: idproduto ?? this.idproduto,
         qtde: qtde ?? this.qtde,
         valor: valor ?? this.valor,
-        totalfmt: totalfmt ?? this.totalfmt,
         nome: nome ?? this.nome,
         enviado: enviado ?? this.enviado,
       );
@@ -2086,7 +1968,6 @@ class Iten extends DataClass implements Insertable<Iten> {
           ..write('idproduto: $idproduto, ')
           ..write('qtde: $qtde, ')
           ..write('valor: $valor, ')
-          ..write('totalfmt: $totalfmt, ')
           ..write('nome: $nome, ')
           ..write('enviado: $enviado')
           ..write(')'))
@@ -2102,10 +1983,8 @@ class Iten extends DataClass implements Insertable<Iten> {
               idproduto.hashCode,
               $mrjc(
                   qtde.hashCode,
-                  $mrjc(
-                      valor.hashCode,
-                      $mrjc(totalfmt.hashCode,
-                          $mrjc(nome.hashCode, enviado.hashCode))))))));
+                  $mrjc(valor.hashCode,
+                      $mrjc(nome.hashCode, enviado.hashCode)))))));
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -2115,7 +1994,6 @@ class Iten extends DataClass implements Insertable<Iten> {
           other.idproduto == this.idproduto &&
           other.qtde == this.qtde &&
           other.valor == this.valor &&
-          other.totalfmt == this.totalfmt &&
           other.nome == this.nome &&
           other.enviado == this.enviado);
 }
@@ -2126,7 +2004,6 @@ class ItensCompanion extends UpdateCompanion<Iten> {
   final Value<int> idproduto;
   final Value<int> qtde;
   final Value<double> valor;
-  final Value<String> totalfmt;
   final Value<String> nome;
   final Value<int> enviado;
   const ItensCompanion({
@@ -2135,7 +2012,6 @@ class ItensCompanion extends UpdateCompanion<Iten> {
     this.idproduto = const Value.absent(),
     this.qtde = const Value.absent(),
     this.valor = const Value.absent(),
-    this.totalfmt = const Value.absent(),
     this.nome = const Value.absent(),
     this.enviado = const Value.absent(),
   });
@@ -2145,14 +2021,12 @@ class ItensCompanion extends UpdateCompanion<Iten> {
     @required int idproduto,
     @required int qtde,
     @required double valor,
-    @required String totalfmt,
     @required String nome,
     this.enviado = const Value.absent(),
   })  : idpedido = Value(idpedido),
         idproduto = Value(idproduto),
         qtde = Value(qtde),
         valor = Value(valor),
-        totalfmt = Value(totalfmt),
         nome = Value(nome);
   static Insertable<Iten> custom({
     Expression<int> id,
@@ -2160,7 +2034,6 @@ class ItensCompanion extends UpdateCompanion<Iten> {
     Expression<int> idproduto,
     Expression<int> qtde,
     Expression<double> valor,
-    Expression<String> totalfmt,
     Expression<String> nome,
     Expression<int> enviado,
   }) {
@@ -2170,7 +2043,6 @@ class ItensCompanion extends UpdateCompanion<Iten> {
       if (idproduto != null) 'idproduto': idproduto,
       if (qtde != null) 'qtde': qtde,
       if (valor != null) 'valor': valor,
-      if (totalfmt != null) 'totalfmt': totalfmt,
       if (nome != null) 'nome': nome,
       if (enviado != null) 'enviado': enviado,
     });
@@ -2182,7 +2054,6 @@ class ItensCompanion extends UpdateCompanion<Iten> {
       Value<int> idproduto,
       Value<int> qtde,
       Value<double> valor,
-      Value<String> totalfmt,
       Value<String> nome,
       Value<int> enviado}) {
     return ItensCompanion(
@@ -2191,7 +2062,6 @@ class ItensCompanion extends UpdateCompanion<Iten> {
       idproduto: idproduto ?? this.idproduto,
       qtde: qtde ?? this.qtde,
       valor: valor ?? this.valor,
-      totalfmt: totalfmt ?? this.totalfmt,
       nome: nome ?? this.nome,
       enviado: enviado ?? this.enviado,
     );
@@ -2215,9 +2085,6 @@ class ItensCompanion extends UpdateCompanion<Iten> {
     if (valor.present) {
       map['valor'] = Variable<double>(valor.value);
     }
-    if (totalfmt.present) {
-      map['totalfmt'] = Variable<String>(totalfmt.value);
-    }
     if (nome.present) {
       map['nome'] = Variable<String>(nome.value);
     }
@@ -2235,7 +2102,6 @@ class ItensCompanion extends UpdateCompanion<Iten> {
           ..write('idproduto: $idproduto, ')
           ..write('qtde: $qtde, ')
           ..write('valor: $valor, ')
-          ..write('totalfmt: $totalfmt, ')
           ..write('nome: $nome, ')
           ..write('enviado: $enviado')
           ..write(')'))
@@ -2304,18 +2170,6 @@ class $ItensTable extends Itens with TableInfo<$ItensTable, Iten> {
     );
   }
 
-  final VerificationMeta _totalfmtMeta = const VerificationMeta('totalfmt');
-  GeneratedTextColumn _totalfmt;
-  @override
-  GeneratedTextColumn get totalfmt => _totalfmt ??= _constructTotalfmt();
-  GeneratedTextColumn _constructTotalfmt() {
-    return GeneratedTextColumn(
-      'totalfmt',
-      $tableName,
-      false,
-    );
-  }
-
   final VerificationMeta _nomeMeta = const VerificationMeta('nome');
   GeneratedTextColumn _nome;
   @override
@@ -2335,7 +2189,7 @@ class $ItensTable extends Itens with TableInfo<$ItensTable, Iten> {
 
   @override
   List<GeneratedColumn> get $columns =>
-      [id, idpedido, idproduto, qtde, valor, totalfmt, nome, enviado];
+      [id, idpedido, idproduto, qtde, valor, nome, enviado];
   @override
   $ItensTable get asDslTable => this;
   @override
@@ -2373,12 +2227,6 @@ class $ItensTable extends Itens with TableInfo<$ItensTable, Iten> {
           _valorMeta, valor.isAcceptableOrUnknown(data['valor'], _valorMeta));
     } else if (isInserting) {
       context.missing(_valorMeta);
-    }
-    if (data.containsKey('totalfmt')) {
-      context.handle(_totalfmtMeta,
-          totalfmt.isAcceptableOrUnknown(data['totalfmt'], _totalfmtMeta));
-    } else if (isInserting) {
-      context.missing(_totalfmtMeta);
     }
     if (data.containsKey('nome')) {
       context.handle(

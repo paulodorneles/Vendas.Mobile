@@ -10,7 +10,6 @@ import 'package:vendas_app/src/view/vendas_sel_produto.view.dart';
 
 import 'package:vendas_app/src/app_controller.dart';
 
-
 class ClienteSel extends StatefulWidget {
   @override
   _ClienteSelState createState() => _ClienteSelState();
@@ -42,7 +41,7 @@ class _ClienteSelState extends State<ClienteSel> {
                     iconSize: 40,
                     onPressed: () {
                       //Modular.to.pop();
-                      Navigator.of(context).pop();  
+                      Navigator.of(context).pop();
                     },
                     color: Colors.white,
                   ),
@@ -120,10 +119,12 @@ class _ClienteSelState extends State<ClienteSel> {
                                           cli[index].uf);
                                   // print(controller.pedidoCodigo);
                                   Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (BuildContext context) =>
-                                        PedProduto()));
+                                      builder: (BuildContext context) =>
+                                          PedProduto(
+                                              codigoCli: cli[index].id,
+                                              nomeCli: cli[index].nome)));
 
-                                  //Navigator.of(context).push(route);     
+                                  //Navigator.of(context).push(route);
 
                                   //Modular.to.pushNamed('pedidoProduto');
                                 },
